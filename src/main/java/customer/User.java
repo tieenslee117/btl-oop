@@ -17,15 +17,13 @@ import static javax.swing.WindowConstants.EXIT_ON_CLOSE;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
-public class CustomerHome extends JFrame {
+public class User extends JFrame {
     private static final long serialVersionUID = 1L;
     private JTextField textField;
     private JPasswordField passwordField;
     private JButton btnNewButton;
     private JLabel label;
     private JPanel contentPane;
-    private String[] fakeFields = {"Tên", "Công ty", "Người quản lý", "Số lượng phát hành", "Số lượng đã bán", "Giá trần", "Giá sàn"};
-    private final String[][] fakeDatas;
 
     
     public static void main(String[] args) {
@@ -40,12 +38,7 @@ public class CustomerHome extends JFrame {
             }
         });
     }
-    public CustomerHome() {
-        this.fakeDatas = new String[][] {
-                {"cp1", "ct1", "ql1", "10", "3", "1$", "0$"},
-                {"cp1", "ct1", "ql1", "10", "3", "1$", "0$"},
-                {"cp1", "ct1", "ql1", "10", "3", "1$", "0$"}
-                };
+    public User() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setBounds(300, 120, 1000, 600);
         setResizable(false);
@@ -79,22 +72,7 @@ public class CustomerHome extends JFrame {
             }
         });
         contentPane.add(inforBtn);
-        
-        DefaultTableModel model = new DefaultTableModel() { 
-            @Override 
-            public int getColumnCount() { 
-                return fakeFields.length; 
-            } 
-
-            @Override 
-            public String getColumnName(int index) { 
-                return fakeFields[index]; 
-            } 
-        }; 
-        
-        JTable stockTable = new JTable(fakeDatas, fakeFields);
-        stockTable.setBounds(50, 80, 900, 400);
-        contentPane.add(stockTable);
+      
         
     }
 }

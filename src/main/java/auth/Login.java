@@ -32,9 +32,11 @@ public class Login extends JFrame {
     private JButton btnNewButton;
     private JLabel label;
     private JPanel contentPane;
+    private String type;
+
 
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
+        EventQueue.invokeLater(new Runnable() {     
             public void run() {
                 try {
                     Login frame = new Login();
@@ -64,68 +66,82 @@ public class Login extends JFrame {
         lblNewLabel.setBounds(423, 13, 273, 93);
         contentPane.add(lblNewLabel);
         
-        String[] types = {"", ""};
-        String type = "";
-        JComboBox cb = new JComboBox();
+        
+        JLabel lbType = new JLabel("Loại tài khoản");
+        lbType.setBackground(Color.BLACK);
+        lbType.setForeground(Color.BLACK);
+        lbType.setFont(new Font("Tahoma", Font.PLAIN, 31));
+        lbType.setBounds(250, 120, 193, 52);
+        contentPane.add(lbType);
+        
+        
+        String[] types = {"Khách hàng", "Quản lý"};
+        JComboBox cbType = new JComboBox(types);
+        cbType.setForeground(Color.BLACK);
+        cbType.setFont(new Font("Times New Roman", Font.PLAIN, 46));
+        cbType.setBounds(481, 120, 273, 40);
+        contentPane.add(cbType);
 
         textField = new JTextField();
         textField.setFont(new Font("Tahoma", Font.PLAIN, 32));
-        textField.setBounds(481, 170, 281, 68);
+        textField.setBounds(481, 220, 281, 68);
         contentPane.add(textField);
         textField.setColumns(10);
 
         passwordField = new JPasswordField();
         passwordField.setFont(new Font("Tahoma", Font.PLAIN, 32));
-        passwordField.setBounds(481, 286, 281, 68);
+        passwordField.setBounds(481, 320, 281, 68);
         contentPane.add(passwordField);
 
-        JLabel lblUsername = new JLabel("Username");
+        JLabel lblUsername = new JLabel("Tên người dùng");
         lblUsername.setBackground(Color.BLACK);
         lblUsername.setForeground(Color.BLACK);
         lblUsername.setFont(new Font("Tahoma", Font.PLAIN, 31));
-        lblUsername.setBounds(250, 166, 193, 52);
+        lblUsername.setBounds(250, 220, 193, 52);
         contentPane.add(lblUsername);
 
-        JLabel lblPassword = new JLabel("Password");
+        JLabel lblPassword = new JLabel("Mật khẩu");
         lblPassword.setForeground(Color.BLACK);
         lblPassword.setBackground(Color.CYAN);
         lblPassword.setFont(new Font("Tahoma", Font.PLAIN, 31));
-        lblPassword.setBounds(250, 286, 193, 52);
+        lblPassword.setBounds(250, 320, 193, 52);
         contentPane.add(lblPassword);
 
         btnNewButton = new JButton("Login");
         btnNewButton.setFont(new Font("Tahoma", Font.PLAIN, 26));
-        btnNewButton.setBounds(545, 392, 162, 73);
+        btnNewButton.setBounds(460, 440, 150, 60);
         btnNewButton.addActionListener(new ActionListener() {
 
             public void actionPerformed(ActionEvent e) {
                 String userName = textField.getText();
                 String password = new String(passwordField.getPassword());
-//                Class.forName("com.mysql.cj.jdbc.Driver");
-                try {
-                    Connection connection = JDBCUtils.getConnection();
-
-                    PreparedStatement st = (PreparedStatement) connection
-                        .prepareStatement("Select username, password from ? where username=? and password=?");
-                    st.setString(1, type);
-                    st.setString(2, userName);
-                    st.setString(3, password);
-                    ResultSet rs = st.executeQuery();
-                    if (rs.next()) {
-                        dispose();
-                        CustomerHome ah = new CustomerHome(userName);
-                        ah.setTitle("Welcome");
-                        ah.setVisible(true);
-                        JOptionPane.showMessageDialog(btnNewButton, "You have successfully logged in");
-                    } else {
-                        JOptionPane.showMessageDialog(btnNewButton, "Wrong Username & Password");
-                    }
-                } catch (SQLException sqlException) {
-                    sqlException.printStackTrace();
-                }
+                String t = "" + cbType.getSelectedItem();
+                if(t == "Khách hàng") type = "customer";
+                if(t == "Quản lý") type = "admin";
+//                try {
+//                    Connection connection = JDBCUtils.getConnection();
+//                    PreparedStatement st = (PreparedStatement) connection
+//                        .prepareStatement("SELECT username, pass FROM customer WHERE username=? and pass=?;");
+//                    st.setString(1, type);
+//                    st.setString(2, userName);
+//                    st.setString(3, password);
+                    System.out.println(type +  userName+ password);
+//                    ResultSet rs = st.executeQuery();
+//                    if (rs.next()) {
+//                        dispose();
+//                        CustomerHome ah = new CustomerHome(userName);
+//                        ah.setTitle("Welcome");
+//                        ah.setVisible(true);
+//                        JOptionPane.showMessageDialog(btnNewButton, "You have successfully logged in");
+//                    } else {
+//                        JOptionPane.showMessageDialog(btnNewButton, "Wrong Username & Password");
+//                    }
+//                } catch (SQLException sqlException) {
+//                    sqlException.printStackTrace();
+//                }
             }
         });
-
+        
         contentPane.add(btnNewButton);
 
         label = new JLabel("");

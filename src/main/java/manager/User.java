@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package customer;
+package manager;
 
 /**
  *
@@ -56,27 +56,27 @@ public class User extends JFrame {
         homeBtn.setBounds(50, 20, 200, 30);
         contentPane.add(homeBtn);
         
-        homeBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CustomerHome sl = new CustomerHome(id);
-                dispose();
-                sl.setVisible(true);
-            }
-        });
-        
-        JButton stockBtn = new JButton("Cổ phiếu trên thị trường");
-        stockBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
-        stockBtn.setBounds(400, 20, 200, 30);
-        stockBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                StockList sl = new StockList(id);
-                dispose();
-                sl.setVisible(true);
-            }
-        });
-        contentPane.add(stockBtn);
+//        homeBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                CustomerHome sl = new CustomerHome(id);
+//                dispose();
+//                sl.setVisible(true);
+//            }
+//        });
+//        
+//        JButton stockBtn = new JButton("Cổ phiếu trên thị trường");
+//        stockBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
+//        stockBtn.setBounds(400, 20, 200, 30);
+//        stockBtn.addActionListener(new ActionListener() {
+//            @Override
+//            public void actionPerformed(ActionEvent e) {
+//                StockList sl = new StockList(id);
+//                dispose();
+//                sl.setVisible(true);
+//            }
+//        });
+//        contentPane.add(stockBtn);
           
         JButton inforBtn = new JButton("Thông tin cá nhân");
         inforBtn.setFont(new Font("Tahoma", Font.PLAIN, 14));
@@ -91,7 +91,7 @@ public class User extends JFrame {
         contentPane.add(lbType);
 
         
-        JLabel type = new JLabel("Khách hàng");
+        JLabel type = new JLabel("Quản lý");
         type.setBackground(Color.BLACK);
         type.setForeground(Color.BLACK);
         type.setFont(new Font("Tahoma", Font.PLAIN, 18));

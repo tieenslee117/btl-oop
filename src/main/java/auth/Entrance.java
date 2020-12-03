@@ -6,6 +6,12 @@
 
 package auth;
 import java.sql.*;
+import customer.CustomerHome;
+import javax.swing.JButton;
+import javax.swing.JOptionPane;
+import javax.swing.*;
+import manager.ManagerHome;
+import utils.JDBCUtils;
 
 /**
  *
@@ -15,6 +21,7 @@ public class Entrance extends javax.swing.JFrame {
     private static final String DB_URL = "jdbc:mysql://manage-stock.cyaftf4gjnxu.ap-southeast-1.rds.amazonaws.com:3306/StockManager";
     private static final String USER_NAME = "admin";
     private static final String PASSWORD = "12345678";
+    private JButton btnNewButton;
     /**
      * Creates new form NewJFrame
      * @param dbURL
@@ -197,12 +204,44 @@ public class Entrance extends javax.swing.JFrame {
                     String pw = null;
                     while (rs.next()) {
                         pw = rs.getString("pass");
-                       
                     }
+//                    if (rs.next()) {
+//                        dispose();
+//                        CustomerHome ch = new CustomerHome(jTextField2.getText());
+//                        ch.setTitle("Home");
+//                        ch.setVisible(true);
+//                        JOptionPane.showMessageDialog(btnNewButton, "You have successfully logged in");
+//                    } else {
+//                        JOptionPane.showMessageDialog(btnNewButton, "Wrong Username & Password");
+//                    }
                     if (pw.equals(jTextField3.getText())) {
                         // Đăng nhập thành công
+                        JOptionPane.showMessageDialog(btnNewButton, "Đăng nhập thành công");
+                        try (Connection connection = JDBCUtils.getConnection();
+                            PreparedStatement preparedStatement = connection
+                            .prepareStatement("SELECT cus_id FROM customer WHERE username = ? and pass = ? ")) {
+                            preparedStatement.setString(1, jTextField2.getText());
+                            preparedStatement.setString(2, pw);
+                            System.out.println(preparedStatement);
+                            ResultSet rs1 = preparedStatement.executeQuery();
+                            String cusId ="";
+                            while(rs1.next()) {
+                                cusId = rs1.getString("cus_id");
+                                System.out.println(cusId);
+                            }
+                            CustomerHome ch = new CustomerHome(cusId);
+                            dispose();
+                            ch.setVisible(true);
+
+                        } catch (SQLException e) {
+                            // process sql exception
+                            JDBCUtils.printSQLException(e);
+                        }
+                        
+
                     } else {
-                        jLabel2.setText("Tài khoản hoặc mật khẩu không đúng!");
+//                        jLabel2.setText("Tài khoản hoặc mật khẩu không đúng!");
+                        JOptionPane.showMessageDialog(btnNewButton, "Tài khoản hoặc mật khẩu không đúng!");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();
@@ -223,7 +262,28 @@ public class Entrance extends javax.swing.JFrame {
                        
                     }
                     if (pw.equals(jTextField3.getText())) {
-                        // Đăng nhập thành công
+                        JOptionPane.showMessageDialog(btnNewButton, "Đăng nhập thành công");
+                        try (Connection connection = JDBCUtils.getConnection();
+                            PreparedStatement preparedStatement = connection
+                            .prepareStatement("SELECT man_id FROM manager WHERE username = ? and pass = ? ")) {
+                            preparedStatement.setString(1, jTextField2.getText());
+                            preparedStatement.setString(2, pw);
+                            System.out.println(preparedStatement);
+                            ResultSet rs1 = preparedStatement.executeQuery();
+                            String cusId ="";
+                            while(rs1.next()) {
+                                cusId = rs1.getString("man_id");
+                                System.out.println(cusId);
+                            }
+                            ManagerHome mh = new ManagerHome(cusId);
+                            dispose();
+                            mh.setVisible(true);
+
+                        } catch (SQLException e) {
+                            // process sql exception
+                            JDBCUtils.printSQLException(e);
+                        }
+                        
                     } else {
                         jLabel2.setText("Tài khoản hoặc mật khẩu không đúng!");
                     }

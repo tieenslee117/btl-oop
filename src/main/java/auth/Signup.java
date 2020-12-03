@@ -228,7 +228,7 @@ public class Signup extends javax.swing.JFrame {
                     LocalDateTime now = LocalDateTime.now();  
 
                     Statement stmt = conn.createStatement();
-                    String query = " insert ignore into customer (username, pass, fullname, email, phone, address, submission_date)"
+                    String query = " insert ignore into customer (username, pass, fullname, email, phone, address, submission_dated)"
                     + " values (?, ?, ?, ?, ?, ?, ?)";
                     ps = conn.prepareStatement(query);
                     ps.setString(1, jTextField2.getText());

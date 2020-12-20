@@ -45,7 +45,7 @@ public class BuildEntrance extends javax.swing.JFrame {
 
         jLabel1.setText("Loại tài khoản:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Khách hàng", "Quản lý" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Người mua", "Quản lý" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);

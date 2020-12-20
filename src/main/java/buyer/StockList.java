@@ -131,8 +131,6 @@ public class StockList extends JFrame {
         
         ArrayList<Stock> stocks = new ArrayList<>();
         DefaultTableModel tbModel = new DefaultTableModel(new String[]{"Name", "Company", "Manager", "Release", "Sold", "Tran", "San", "Button"}, 0);
-                tbModel.addRow(new String[]{"Name", "Company", "Manager", "Release", "Sold", "Tran", "San"});
-
         JTable stockTable = new JTable(tbModel);
         stockTable.setBounds(50, 80, 900, 400);
         System.out.println("1");

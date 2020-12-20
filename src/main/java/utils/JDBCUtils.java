@@ -16,7 +16,8 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.sql.*;
 public class JDBCUtils {
-    private static final String DB_URL = "jdbc:mysql://manage-stock.cyaftf4gjnxu.ap-southeast-1.rds.amazonaws.com:3306/StockManager";
+    
+    private static final String DB_URL = "jdbc:mysql://nothing-db.cyaftf4gjnxu.ap-southeast-1.rds.amazonaws.com:3306/StockManager";
     private static final String USER_NAME = "admin";
     private static final String PASSWORD = "12345678";
 

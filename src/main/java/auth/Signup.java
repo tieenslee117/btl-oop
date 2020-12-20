@@ -10,15 +10,13 @@ package auth;
 import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import utils.JDBCUtils;
 /**
  *
  * @author DELL
  */
 public class Signup extends javax.swing.JFrame {
     
-    private static final String DB_URL = "jdbc:mysql://manage-stock.cyaftf4gjnxu.ap-southeast-1.rds.amazonaws.com:3306/StockManager";
-    private static final String USER_NAME = "admin";
-    private static final String PASSWORD = "12345678";
     /**
      * Creates new form NewJFrame
      * @param dbURL
@@ -40,6 +38,8 @@ public class Signup extends javax.swing.JFrame {
         return conn;
     }
     public Signup() {
+        setBounds(520, 160, 1000, 650);
+        setResizable(false);
         initComponents();
     }
 
@@ -74,7 +74,7 @@ public class Signup extends javax.swing.JFrame {
 
         jLabel1.setText("Loại tài khoản:");
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Khách hàng", "Quản lý" }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Người mua", "Quản lý" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jComboBox1ActionPerformed(evt);
@@ -222,13 +222,12 @@ public class Signup extends javax.swing.JFrame {
         } else {
             String value = jComboBox1.getSelectedItem().toString();
             PreparedStatement ps = null;
-            if ("Khách hàng".equals(value)) {
-                try (Connection conn = getConnection(DB_URL, USER_NAME, PASSWORD)) {
+            if ("Người mua".equals(value)) {
+                try (Connection conn = JDBCUtils.getConnection()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
                     LocalDateTime now = LocalDateTime.now();  
-
                     Statement stmt = conn.createStatement();
-                    String query = " insert ignore into customer (username, pass, fullname, email, phone, address, submission_dated)"
+                    String query = "insert ignore into buyer (username, pass, fullname, email, phone, address, submission_dated)"
                     + " values (?, ?, ?, ?, ?, ?, ?)";
                     ps = conn.prepareStatement(query);
                     ps.setString(1, jTextField2.getText());
@@ -239,7 +238,6 @@ public class Signup extends javax.swing.JFrame {
                     ps.setString(6, jTextField5.getText());
                     ps.setString(7, dtf.format(now));
 
-                    ps.executeUpdate();
                     int rowAffected = ps.executeUpdate();
                     System.out.println(String.format("Row affected %d", rowAffected));
                 } catch (SQLException ex) {
@@ -248,7 +246,7 @@ public class Signup extends javax.swing.JFrame {
             }
             
             if ("Quản lý".equals(value)) {
-                try (Connection conn = getConnection(DB_URL, USER_NAME, PASSWORD)) {
+                try (Connection conn = JDBCUtils.getConnection()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
                     LocalDateTime now = LocalDateTime.now();  
 
@@ -264,7 +262,6 @@ public class Signup extends javax.swing.JFrame {
                     ps.setString(6, jTextField5.getText());
                     ps.setString(7, dtf.format(now));
 
-                    ps.executeUpdate();
                     int rowAffected = ps.executeUpdate();
                     System.out.println(String.format("Row affected %d", rowAffected));
                 } catch (SQLException ex) {

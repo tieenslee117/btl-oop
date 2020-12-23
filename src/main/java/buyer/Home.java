@@ -29,14 +29,14 @@ public class Home extends javax.swing.JFrame {
     /**
      * Creates new form Home
      */
-    private String cusId;
+    private String id;
     private JButton btnNewButton;
     private ArrayList<String> ids = new ArrayList<String>();
 
-    public Home(String cusId) {
-        initComponents(cusId);
+    public Home(String id) {
+        initComponents(id);
 //        initComponents();
-        this.cusId = cusId;
+        this.id = id;
         setResizable(false);
         setBounds(300, 110, 1000, 650);
         setTitle("Quản lý giao dịch");
@@ -104,7 +104,7 @@ public class Home extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Tên mặt hàng", "Loại mặt hàng", "Số lượng mua", "Giá", "Tổng giá", "Người bán", "Người quản lý", "Ngày mua"
+                "Tên mặt hàng", "Miêu tả", "Số lượng mua", "Giá", "Tổng giá", "Người bán", "Người quản lý", "Ngày mua"
             }
         ) {
             Class[] types = new Class [] {
@@ -158,7 +158,7 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Tên mặt hàng", "Đơn giá", "Loại Mặt hàng", "Người bán", "Quản lý", "Số lượng", "Số lượng đã bán", "Ngày phát hành"
+                "Tên mặt hàng", "Miêu tả", "Đơn giá", "Người bán", "Quản lý", "Số lượng", "Số lượng đã bán", "Ngày phát hành"
             }
         ) {
             Class[] types = new Class [] {
@@ -304,8 +304,8 @@ public class Home extends javax.swing.JFrame {
             .addGroup(jPanel14Layout.createSequentialGroup()
                 .addGap(63, 63, 63)
                 .addComponent(emailLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(44, 44, 44)
-                .addComponent(emailVal, javax.swing.GroupLayout.DEFAULT_SIZE, 185, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(emailVal, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
         jPanel14Layout.setVerticalGroup(
@@ -394,7 +394,7 @@ public class Home extends javax.swing.JFrame {
                             .addComponent(jPanel10, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel12, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel14, javax.swing.GroupLayout.PREFERRED_SIZE, 432, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel15, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jPanel16, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(jPanel4Layout.createSequentialGroup()
@@ -438,7 +438,7 @@ public class Home extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
       
-    private void initComponents(String cusId) {
+    private void initComponents(String id) {
         jPanel3 = new javax.swing.JPanel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel1 = new javax.swing.JPanel();
@@ -488,7 +488,7 @@ public class Home extends javax.swing.JFrame {
         javax.swing.table.DefaultTableModel tbModel = new javax.swing.table.DefaultTableModel(
             new Object [][] {},
             new String [] {
-                "Tên mặt hàng", "Loại mặt hàng" , "Số lượng mua", "Giá", "Tổng giá", "Người bán", "Người quản lý", "Ngày mua"
+                "Tên mặt hàng", "Miêu tả" , "Số lượng mua", "Giá", "Tổng giá", "Người bán", "Người quản lý", "Ngày mua"
             }
         ) {
             Class[] types = new Class [] {
@@ -517,9 +517,9 @@ public class Home extends javax.swing.JFrame {
 "                                manager.fullname,\n" +
 "                                buy.priceForOne,\n" +
 "                                buy.quantity,\n" +
-"                                goods.categorize,\n" +
+"                                goods.description,\n" +
 "                                goods.phone,\n" +
-                                 "buy.submission_date\n"+
+                                 "buy.buyDate\n"+
 "                                FROM goods\n" +
 "                                JOIN buy\n" +
 "                                ON buy.goods_id = goods.goods_id\n" +
@@ -527,10 +527,10 @@ public class Home extends javax.swing.JFrame {
 "                                ON manager.man_id = goods.man_id\n" +
 "                                ) AS st WHERE buyer_id=?;";
             PreparedStatement st = (PreparedStatement) connection.prepareStatement(query);
-                    st.setString(1, cusId);
+                    st.setString(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Object[] data = {rs.getString("nameGoods"), rs.getString("categorize"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"), "day la tong gia", rs.getString("sellerName"), rs.getString("fullname"), rs.getDate("submission_date")};
+                Object[] data = {rs.getString("nameGoods"), rs.getString("description"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"), "day la tong gia", rs.getString("sellerName"), rs.getString("fullname"), rs.getDate("buyDate")};
                 tbModel.addRow(data);
             }
             connection.close();
@@ -576,7 +576,7 @@ public class Home extends javax.swing.JFrame {
 
             },
             new String [] {
-                 "Tên mặt hàng", "Đơn giá", "Loại Mặt hàng", "Số lượng", "Số lượng đã bán" , "Người bán", "Người quản lý", "Ngày bán"
+                 "Tên mặt hàng", "Miêu tả", "Đơn giá", "Số lượng", "Số lượng đã bán" , "Người bán", "Người quản lý", "Ngày bán"
             }
         ) {
             Class[] types = new Class [] {
@@ -597,24 +597,22 @@ public class Home extends javax.swing.JFrame {
         
         try {
             Connection connection = JDBCUtils.getConnection();
-            String query = "SELECT * FROM (\n" +
+            String query =
                                 "SELECT\n" +
                                 "goods.goods_id,\n" +
                                 "  goods.nameGoods,\n" +
                                 "  goods.sellerName,\n" +
                                 "  manager.fullname,\n" +
                                 "  goods.quantity,\n" +
-                                "  goods.categorize,\n" +
+                                "  goods.description,\n" +
                                 "  goods.priceForOne,\n" +
                                 "  goods.submission_date\n" +
-                                "FROM goods\n" +
-                                "JOIN manager\n" +
-                                "  ON manager.man_id = goods.man_id\n" +
-                                "  ) AS rs;";
+                                "FROM goods, manager\n" +
+                                "WHERE goods.man_id = manager.man_id;";
             PreparedStatement st = (PreparedStatement) connection.prepareStatement(query);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                String[] data = {rs.getString("nameGoods"), ""+rs.getInt("priceForOne") ,rs.getString("categorize") , ""+rs.getInt("quantity"), "so luong da ban" , rs.getString("sellerName"), rs.getString("fullname"), ""+rs.getDate("submission_date")};
+                String[] data = {rs.getString("nameGoods"), rs.getString("description"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"), "so luong da ban" , rs.getString("sellerName"), rs.getString("fullname"), ""+rs.getDate("submission_date")};
                 tbModel1.addRow(data);
                 this.ids.add(rs.getString("goods_id"));
             }
@@ -672,7 +670,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(loaiLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(loaiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loaiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -699,7 +697,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(hotenLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(hotenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hotenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -726,7 +724,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(tenLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(tenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -752,7 +750,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(63, 63, 63)
                 .addComponent(emailLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(emailVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -781,7 +779,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(sdtLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(sdtVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sdtVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
@@ -803,11 +801,12 @@ public class Home extends javax.swing.JFrame {
         
         try {
             Connection connection = JDBCUtils.getConnection();
-            String query = "SELECT * FROM customer WHERE cus_id=?";
+            String query = "SELECT * FROM buyer WHERE buyer_id=?";
             PreparedStatement st = (PreparedStatement) connection.prepareStatement(query);
-            st.setString(1, cusId);
+            st.setString(1, id);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
+                System.out.println(rs.getString("fullname"));
                 hotenVal.setText(rs.getString("fullname"));
                 tenVal.setText(rs.getString("username"));
                 sdtVal.setText(rs.getString("phone"));
@@ -828,7 +827,7 @@ public class Home extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(diachiLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(diachiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(diachiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel16Layout.setVerticalGroup(
@@ -917,10 +916,11 @@ public class Home extends javax.swing.JFrame {
         // TODO add your handling code here:
         int row = tb1.rowAtPoint(evt.getPoint());
         int col = tb1.columnAtPoint(evt.getPoint());
-        String stockId = this.ids.get(row);
+        String goodId = this.ids.get(row);
+        String price = ""+tb1.getValueAt(row, 2);
         if (row >= 0 && col >= 0) {
-            System.out.println(stockId);
-            Purchase pc = new Purchase(this.cusId, stockId);
+            System.out.println(price);
+            Purchase pc = new Purchase(this.id, goodId, price);
             pc.setVisible(true);
             pc.setBounds(600, 300, 490, 322);
         }

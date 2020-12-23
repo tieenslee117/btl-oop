@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.*;
 import utils.JDBCUtils;
 import manager.ManagerHome;
+import buyer.Home;
 
 /**
  *
@@ -183,90 +184,116 @@ public class Entrance extends javax.swing.JFrame {
     
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         if (jTextField2.getText().equals("") || jTextField3.getText().equals("")) {
-            jLabel2.setText("Vui lòng nhập đầy đủ thông tin!");
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập đầy đủ thông tin");
         }else {
             String value = jComboBox1.getSelectedItem().toString();
+            PreparedStatement ps = null;
             if ("Người mua".equals(value)) {
                 try (Connection conn = JDBCUtils.getConnection()) {
-                    PreparedStatement ps = 
-                    conn.prepareStatement
-                    ("SELECT pass FROM buyer WHERE username = ?");
 
+                    String checkQr = "SELECT EXISTS (SELECT 1 FROM buyer WHERE username = ?) as result;";
+                    ps = conn.prepareStatement(checkQr);
                     ps.setString(1, jTextField2.getText());
-//                    ps.setString(2, jTextField3.getText());
+                    System.out.println(jTextField2.getText());
                     ResultSet rs = ps.executeQuery();
-                    String pw = null;
-                    while (rs.next()) {
-                        pw = rs.getString("pass");
-                    }
-                    if (pw.equals(jTextField3.getText())) {
-                        // Đăng nhập thành công
-                        JOptionPane.showMessageDialog(btnNewButton, "Đăng nhập thành công");
-                        try (Connection connection = JDBCUtils.getConnection();
-                            PreparedStatement preparedStatement = connection
-                            .prepareStatement("SELECT buyer_id FROM buyer WHERE username = ? and pass = ? ")) {
-                            preparedStatement.setString(1, jTextField2.getText());
-                            preparedStatement.setString(2, pw);
-                            System.out.println(preparedStatement);
-                            ResultSet rs1 = preparedStatement.executeQuery();
-                            String id ="";
-                            while(rs1.next()) {
-                                id = rs1.getString("buyer_id");
-                                System.out.println(id);
+                    while(rs.next()) {
+                        if(rs.getBoolean("result")) {
+                            ps = conn.prepareStatement
+                            ("SELECT pass FROM buyer WHERE username = ?");
+                            ps.setString(1, jTextField2.getText());
+        //                    ps.setString(2, jTextField3.getText());
+                            ResultSet rs2 = ps.executeQuery();
+                            String pw = null;
+                            while (rs2.next()) {
+                                pw = rs2.getString("pass");
                             }
-                            CustomerHome ch = new CustomerHome(id);
-                            dispose();
-                            ch.setVisible(true);
+                            System.out.println(pw + " " + jTextField3.getText());
+                            if (pw.equals(jTextField3.getText())) {
+                                // Đăng nhập thành công
+                                JOptionPane.showMessageDialog(rootPane, "Đăng nhập thành công");
+                                try (Connection connection = JDBCUtils.getConnection();
+                                    PreparedStatement preparedStatement = connection
+                                    .prepareStatement("SELECT buyer_id FROM buyer WHERE username = ? and pass = ? ")) {
+                                    preparedStatement.setString(1, jTextField2.getText());
+                                    preparedStatement.setString(2, pw);
+                                    System.out.println(preparedStatement);
+                                    ResultSet rs1 = preparedStatement.executeQuery();
+                                    String id ="";
+                                    while(rs1.next()) {
+                                        id = rs1.getString("buyer_id");
+                                        System.out.println(id);
+                                    }
+                                    Home h = new Home(id);
+                                    dispose();
+                                    h.setVisible(true);
 
-                        } catch (SQLException e) {
-                            // process sql exception
-                            JDBCUtils.printSQLException(e);
+                                } catch (SQLException e) {
+                                    // process sql exception
+                                    JDBCUtils.printSQLException(e);
+                                }
+                            } else {
+                                JOptionPane.showMessageDialog(rootPane, "Mật khẩu không chính xác!");
+                            }
                         }
-                    } else {
-                        JOptionPane.showMessageDialog(btnNewButton, "Tài khoản hoặc mật khẩu không đúng!");
+                        else {
+                            JOptionPane.showMessageDialog(rootPane, "Tài khoản không tồn tại!");
+                        }
                     }
+                            
+                    
+                    
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } 
             }
             else {
                 try (Connection conn = JDBCUtils.getConnection() ) {
-                    PreparedStatement ps = 
-                    conn.prepareStatement
-                    ("SELECT pass FROM manager WHERE username = ?");
+                    String checkQr = "SELECT EXISTS (SELECT 1 FROM manager WHERE username = ?) as result;";
+                    ps = conn.prepareStatement(checkQr);
                     ps.setString(1, jTextField2.getText());
-//                    ps.setString(2, jTextField3.getText());
                     ResultSet rs = ps.executeQuery();
-                    String pw = null;
-                    while (rs.next()) {
-                        pw = rs.getString("pass");
-                       
-                    }
-                    if (pw.equals(jTextField3.getText())) {
-                        JOptionPane.showMessageDialog(btnNewButton, "Đăng nhập thành công");
-                        try (Connection connection = JDBCUtils.getConnection();
-                            PreparedStatement preparedStatement = connection
-                            .prepareStatement("SELECT man_id FROM manager WHERE username = ? and pass = ? ")) {
-                            preparedStatement.setString(1, jTextField2.getText());
-                            preparedStatement.setString(2, pw);
-                            System.out.println(preparedStatement);
-                            ResultSet rs1 = preparedStatement.executeQuery();
-                            String id ="";
-                            while(rs1.next()) {
-                                id = rs1.getString("man_id");
-                                System.out.println(id);
-                            }
-                            ManagerHome mh = new ManagerHome(id);
-                            dispose();
-                            mh.setVisible(true);
+                    
+                    while(rs.next()) {
+                        if(rs.getBoolean("result")) {
+                            ps = conn.prepareStatement("SELECT pass FROM manager WHERE username = ?");
+                            ps.setString(1, jTextField2.getText());
+        //                    ps.setString(2, jTextField3.getText());
+                            ResultSet rs2 = ps.executeQuery();
+                            String pw = null;
+                            while (rs2.next()) {
+                                pw = rs2.getString("pass");
 
-                        } catch (SQLException e) {
-                            // process sql exception
-                            JDBCUtils.printSQLException(e);
+                            }
+                            if (pw.equals(jTextField3.getText())) {
+                                JOptionPane.showMessageDialog(rootPane, "Đăng nhập thành công");
+                                try (Connection connection = JDBCUtils.getConnection();
+                                    PreparedStatement preparedStatement = connection
+                                    .prepareStatement("SELECT man_id FROM manager WHERE username = ? and pass = ? ")) {
+                                    preparedStatement.setString(1, jTextField2.getText());
+                                    preparedStatement.setString(2, pw);
+                                    System.out.println(preparedStatement);
+                                    ResultSet rs1 = preparedStatement.executeQuery();
+                                    String id ="";
+                                    while(rs1.next()) {
+                                        id = rs1.getString("man_id");
+                                        System.out.println(id);
+                                    }
+                                    ManagerHome mh = new ManagerHome(id);
+                                    dispose();
+                                    mh.setVisible(true);
+
+                                } catch (SQLException e) {
+                                    // process sql exception
+                                    JDBCUtils.printSQLException(e);
+                                }
+
+                            } else {
+                                JOptionPane.showMessageDialog(rootPane, "Mật khẩu không chính xác!");
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Tài khoản không tồn tại!");
                         }
                         
-                    } else {
-                        jLabel2.setText("Tài khoản hoặc mật khẩu không đúng!");
                     }
                 } catch (SQLException ex) {
                     ex.printStackTrace();

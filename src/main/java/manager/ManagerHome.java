@@ -68,8 +68,8 @@ public class ManagerHome extends javax.swing.JFrame {
         slLb = new javax.swing.JLabel();
         slTf = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        loaiMhLb = new javax.swing.JLabel();
-        loaiMhTf = new javax.swing.JTextField();
+        mieuTaLb = new javax.swing.JLabel();
+        mieuTa = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         giaLb = new javax.swing.JLabel();
         giaTf = new javax.swing.JTextField();
@@ -109,17 +109,19 @@ public class ManagerHome extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jTabbedPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabbedPane1MouseClicked(evt);
+            }
+        });
 
         tb.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tb.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "Tên", "Đơn giá", "Số lượng", "Số lượng đã bán", "Loại hàng", "Người bán", "Ngày bán"
+                "Tên", "Miêu tả", "Đơn giá", "Số lượng", "Số lượng đã bán", "Người bán", "Ngày bán"
             }
         ) {
             Class[] types = new Class [] {
@@ -291,12 +293,12 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        loaiMhLb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        loaiMhLb.setText("Loại ");
+        mieuTaLb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        mieuTaLb.setText("Miêu tả");
 
-        loaiMhTf.addActionListener(new java.awt.event.ActionListener() {
+        mieuTa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loaiMhTfActionPerformed(evt);
+                mieuTaActionPerformed(evt);
             }
         });
 
@@ -306,9 +308,9 @@ public class ManagerHome extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addComponent(loaiMhLb, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mieuTaLb, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(loaiMhTf, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mieuTa, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -316,8 +318,8 @@ public class ManagerHome extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loaiMhLb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loaiMhTf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mieuTaLb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mieuTa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -644,8 +646,8 @@ public class ManagerHome extends javax.swing.JFrame {
         slLb = new javax.swing.JLabel();
         slTf = new javax.swing.JTextField();
         jPanel8 = new javax.swing.JPanel();
-        loaiMhLb = new javax.swing.JLabel();
-        loaiMhTf = new javax.swing.JTextField();
+        mieuTaLb = new javax.swing.JLabel();
+        mieuTa = new javax.swing.JTextField();
         jPanel9 = new javax.swing.JPanel();
         giaLb = new javax.swing.JLabel();
         giaTf = new javax.swing.JTextField();
@@ -687,10 +689,12 @@ public class ManagerHome extends javax.swing.JFrame {
         jTabbedPane1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
 
         tb.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N   
+        tb.setRowHeight(25);
+
         javax.swing.table.DefaultTableModel tbModel = new javax.swing.table.DefaultTableModel(
             new Object [][] {},
             new String [] {
-                "Tên", "Đơn giá", "Số lượng", "Số lượng đã bán", "Loại hàng", "Người bán", "Ngày bán"
+                "Tên", "Đơn giá", "Số lượng", "Số lượng đã bán", "Miêu tả", "Người bán", "Ngày bán"
             }
         ) {
             Class[] types = new Class [] {
@@ -700,31 +704,41 @@ public class ManagerHome extends javax.swing.JFrame {
             public Class getColumnClass(int columnIndex) {
                 return types [columnIndex];
             }
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
         };
         try {
             Connection connection = JDBCUtils.getConnection();
-            String query = "SELECT * FROM (\n" +
-                           "SELECT goods.nameGoods,\n" +
-                            "goods.sellerName,\n" +
-                            "goods.quantity,\n" +
-                            "goods.categorize,\n" +
-                            "goods.priceForOne,\n" +
-                            "goods.submission_date,\n" +
-                            "FROM goods\n" +
-                            "JOIN manager\n" +
-                            "ON manager.man_id = goods.man_id\n" +
-                            ") AS st WHERE man_id=?;";
+//            String query = "SELECT * FROM (\n" +
+//                           "SELECT goods.nameGoods,\n" +
+//                           "goods.man_id,\n" +
+//                            "goods.sellerName,\n" +
+//                            "goods.quantity,\n" +
+//                            "goods.categorize,\n" +
+//                            "goods.priceForOne,\n" +
+//                            "goods.submission_date,\n" +
+//                            "FROM goods\n" +
+//                            "JOIN manager\n" +
+//                            "ON manager.man_id = goods.man_id\n" +
+//                            ") AS st WHERE man_id=?;";
+            String query ="SELECT * FROM goods where goods.man_id = ?;";
             PreparedStatement st = (PreparedStatement) connection.prepareStatement(query);
             st.setString(1, manId);
             ResultSet rs = st.executeQuery();
             while (rs.next()) {
-                Object[] data = {rs.getString("nameGoods"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"),"",""+rs.getString("categorize"), ""+rs.getString("sellerName"),""+ rs.getDate("submission_date")};
+                Object[] data = {rs.getString("nameGoods"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"),"",""+rs.getString("description"), ""+rs.getString("sellerName"),""+ rs.getDate("submission_date")};
                 tbModel.addRow(data);
             }
             connection.close();
         } catch (SQLException sqlException) {
             sqlException.printStackTrace();
         }
+        
         tb.setModel(tbModel);
         jScrollPane1.setViewportView(tb);
 
@@ -870,12 +884,12 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        loaiMhLb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        loaiMhLb.setText("Loại");
+        mieuTaLb.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        mieuTaLb.setText("Miêu tả");
 
-        loaiMhTf.addActionListener(new java.awt.event.ActionListener() {
+        mieuTa.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                loaiMhTfActionPerformed(evt);
+                mieuTaActionPerformed(evt);
             }
         });
 
@@ -885,9 +899,9 @@ public class ManagerHome extends javax.swing.JFrame {
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(69, 69, 69)
-                .addComponent(loaiMhLb, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mieuTaLb, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(loaiMhTf, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(mieuTa, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
@@ -895,8 +909,8 @@ public class ManagerHome extends javax.swing.JFrame {
             .addGroup(jPanel8Layout.createSequentialGroup()
                 .addGap(19, 19, 19)
                 .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(loaiMhLb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(loaiMhTf, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(mieuTaLb, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(mieuTa, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
@@ -991,7 +1005,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(loaiLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(loaiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(loaiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel10Layout.setVerticalGroup(
@@ -1018,7 +1032,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(hotenLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(hotenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(hotenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel12Layout.setVerticalGroup(
@@ -1045,7 +1059,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(tenLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(tenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(tenVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel13Layout.setVerticalGroup(
@@ -1071,7 +1085,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(63, 63, 63)
                 .addComponent(emailLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
-                .addComponent(emailVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(emailVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel14Layout.setVerticalGroup(
@@ -1100,7 +1114,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(sdtLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(sdtVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(sdtVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel15Layout.setVerticalGroup(
@@ -1147,7 +1161,7 @@ public class ManagerHome extends javax.swing.JFrame {
                 .addGap(65, 65, 65)
                 .addComponent(diachiLb, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42)
-                .addComponent(diachiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(diachiVal, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(58, Short.MAX_VALUE))
         );
         jPanel16Layout.setVerticalGroup(
@@ -1230,9 +1244,9 @@ public class ManagerHome extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_slTfActionPerformed
 
-    private void loaiMhTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loaiMhTfActionPerformed
+    private void mieuTaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mieuTaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_loaiMhTfActionPerformed
+    }//GEN-LAST:event_mieuTaActionPerformed
 
     private void giaTfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_giaTfActionPerformed
         // TODO add your handling code here:
@@ -1240,36 +1254,39 @@ public class ManagerHome extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        String tenCt = tenNbTf.getText();
+        String tenNb = tenNbTf.getText();
         String sdtNb = sdtNbTf.getText();
         String tenMh = tenMhTf.getText();
         String soLuong = slTf.getText();
-        String loaiMh = loaiMhTf.getText();
+        String mt = mieuTa.getText();
         String gia = giaTf.getText();
-        if(tenCt.length() > 0 && tenMh.length() > 0 && soLuong.length() > 0 && loaiMh.length() > 0 && gia.length() > 0) {
+        if(tenNb.length() > 0 && tenMh.length() > 0 && soLuong.length() > 0 && mt.length() > 0 && gia.length() > 0) {
             try {
                 Connection connection = JDBCUtils.getConnection();
                 DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
                 LocalDateTime now = LocalDateTime.now();  
                 
 
-                String qr = "INSERT INTO `goods` (`nameGood` ,`man_id`, `quantity`, `categorize`, `priceForOne`, `submission_date`)\n" +
-                             "VALUES (?, ?, ?, ?, ?, ?);";
+                String qr = "INSERT INTO `goods` (`nameGoods` , `sellerName`, `phone` ,`man_id`, `quantity`, `description`, `priceForOne`, `submission_date`)\n" +
+                             "VALUES (?, ?, ?, ?, ?, ?, ?, ?);";
                 PreparedStatement st2 = (PreparedStatement) connection.prepareStatement(qr);
                 st2.setString(1, tenMh);
-                st2.setString(2, manId);
-                st2.setString(3, soLuong);
-                st2.setString(4, loaiMh);
-                st2.setString(5, gia);
-                st2.setString(6, dtf.format(now));
+                st2.setString(2, tenNb);
+                st2.setString(3, sdtNb);
+                st2.setString(4, manId);
+                st2.setString(5, soLuong);
+                st2.setString(6, mt);
+                st2.setString(7, gia);
+                st2.setString(8, dtf.format(now));
+//                st2.setString(9, "");
                 st2.executeUpdate();
                 connection.close();
-                JOptionPane.showMessageDialog(btnNewButton, "Thêm thành công");
+                JOptionPane.showMessageDialog(rootPane, "Thêm thành công");
                 tenNbTf.setText("");
                 sdtNbTf.setText("");
                 tenMhTf.setText("");
                 slTf.setText("");
-                loaiMhTf.setText("");
+                mieuTa.setText("");
                 giaTf.setText("");
             } catch (SQLException sqlException) {
                 sqlException.printStackTrace();
@@ -1288,6 +1305,60 @@ public class ManagerHome extends javax.swing.JFrame {
         dispose();
         et.setVisible(true);
     }//GEN-LAST:event_dangxuatBtnActionPerformed
+
+    private void jTabbedPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabbedPane1MouseClicked
+        // TODO add your handling code here:
+        
+        javax.swing.table.DefaultTableModel tbModel = new javax.swing.table.DefaultTableModel(
+            new Object [][] {},
+            new String [] {
+                "Tên", "Đơn giá", "Số lượng", "Số lượng đã bán", "Miêu tả", "Người bán", "Ngày bán"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.Integer.class, java.lang.String.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false
+            };
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+            
+        };
+        try {
+            Connection connection = JDBCUtils.getConnection();
+//            String query = "SELECT * FROM (\n" +
+//                           "SELECT goods.nameGoods,\n" +
+//                           "goods.man_id,\n" +
+//                            "goods.sellerName,\n" +
+//                            "goods.quantity,\n" +
+//                            "goods.categorize,\n" +
+//                            "goods.priceForOne,\n" +
+//                            "goods.submission_date,\n" +
+//                            "FROM goods\n" +
+//                            "JOIN manager\n" +
+//                            "ON manager.man_id = goods.man_id\n" +
+//                            ") AS st WHERE man_id=?;";
+            String query ="SELECT * FROM goods where goods.man_id = ?;";
+            PreparedStatement st = (PreparedStatement) connection.prepareStatement(query);
+            st.setString(1, manId);
+            ResultSet rs = st.executeQuery();
+            while (rs.next()) {
+                Object[] data = {rs.getString("nameGoods"), ""+rs.getInt("priceForOne"), ""+rs.getInt("quantity"),"",""+rs.getString("description"), ""+rs.getString("sellerName"),""+ rs.getDate("submission_date")};
+                tbModel.addRow(data);
+            }
+            connection.close();
+        } catch (SQLException sqlException) {
+            sqlException.printStackTrace();
+        }
+        tb.setModel(tbModel);
+        jScrollPane1.setViewportView(tb);
+    }//GEN-LAST:event_jTabbedPane1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -1354,9 +1425,9 @@ public class ManagerHome extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JLabel loaiLb;
-    private javax.swing.JLabel loaiMhLb;
-    private javax.swing.JTextField loaiMhTf;
     private javax.swing.JLabel loaiVal;
+    private javax.swing.JTextField mieuTa;
+    private javax.swing.JLabel mieuTaLb;
     private javax.swing.JLabel sdtLb;
     private javax.swing.JLabel sdtNbLb;
     private javax.swing.JTextField sdtNbTf;

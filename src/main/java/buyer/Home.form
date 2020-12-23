@@ -102,7 +102,7 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="8" rowCount="4">
                         <Column editable="false" title="T&#xea;n m&#x1eb7;t h&#xe0;ng" type="java.lang.String"/>
-                        <Column editable="false" title="Lo&#x1ea1;i m&#x1eb7;t h&#xe0;ng" type="java.lang.Integer"/>
+                        <Column editable="false" title="Mi&#xea;u t&#x1ea3;" type="java.lang.Integer"/>
                         <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng mua" type="java.lang.Integer"/>
                         <Column editable="false" title="Gi&#xe1;" type="java.lang.Integer"/>
                         <Column editable="false" title="T&#x1ed5;ng gi&#xe1;" type="java.lang.Integer"/>
@@ -208,8 +208,8 @@
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
                       <Table columnCount="8" rowCount="0">
                         <Column editable="false" title="T&#xea;n m&#x1eb7;t h&#xe0;ng" type="java.lang.String"/>
+                        <Column editable="false" title="Mi&#xea;u t&#x1ea3;" type="java.lang.String"/>
                         <Column editable="false" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.String"/>
-                        <Column editable="false" title="Lo&#x1ea1;i M&#x1eb7;t h&#xe0;ng" type="java.lang.String"/>
                         <Column editable="false" title="Ng&#x1b0;&#x1edd;i b&#xe1;n" type="java.lang.String"/>
                         <Column editable="false" title="Qu&#x1ea3;n l&#xfd;" type="java.lang.String"/>
                         <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.Integer"/>
@@ -294,7 +294,7 @@
                                   <Component id="jPanel10" alignment="0" min="-2" max="-2" attributes="0"/>
                                   <Component id="jPanel12" min="-2" max="-2" attributes="0"/>
                                   <Component id="jPanel13" min="-2" max="-2" attributes="0"/>
-                                  <Component id="jPanel14" min="-2" max="-2" attributes="0"/>
+                                  <Component id="jPanel14" min="-2" pref="432" max="-2" attributes="0"/>
                                   <Component id="jPanel15" min="-2" max="-2" attributes="0"/>
                                   <Component id="jPanel16" min="-2" max="-2" attributes="0"/>
                               </Group>
@@ -477,8 +477,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="63" max="-2" attributes="0"/>
                           <Component id="emailLb" min="-2" pref="134" max="-2" attributes="0"/>
-                          <EmptySpace min="-2" pref="44" max="-2" attributes="0"/>
-                          <Component id="emailVal" pref="185" max="32767" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="emailVal" min="-2" pref="281" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
                   </Group>

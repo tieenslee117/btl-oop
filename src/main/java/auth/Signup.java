@@ -10,6 +10,7 @@ package auth;
 import java.sql.*;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
+import javax.swing.JOptionPane;
 import utils.JDBCUtils;
 /**
  *
@@ -24,6 +25,7 @@ public class Signup extends javax.swing.JFrame {
      * @param password
      * @return 
      */
+    private boolean success = false;
     public static Connection getConnection(String dbURL, String userName, 
             String password) {
         Connection conn = null;
@@ -212,34 +214,44 @@ public class Signup extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {                                         
         if (jTextField1.getText().equals("") || jTextField2.getText().equals("") || jTextField3.getText().equals("") || jTextField4.getText().equals("") || jTextField5.getText().equals("") || jTextField6.getText().equals("")) {
-            jLabel2.setText("Vui lòng nhập đầy đủ thông tin!");
+            JOptionPane.showMessageDialog(rootPane, "Vui lòng nhập đầy đủ thông tin!");
         } else if (!jTextField2.getText().matches( "^[a-z0-9._-]{3,15}$")) {
-            jLabel2.setText("Tk từ 3-15 kí tự, k ký tự đặc biệt");
+            JOptionPane.showMessageDialog(rootPane, "Tài khoản phải 3-15 ký tự, không chứa ký tự đặc biệt");
         } else if (!jTextField6.getText().matches( "\\w+@\\w+[.]\\w+")) {
-            jLabel2.setText("Email không đúng định dạng!");
+            JOptionPane.showMessageDialog(rootPane, "Email sai định dạng!");
         }  else if (!jTextField3.getText().matches( ".{8,50}$")) {
-            jLabel2.setText("Mk từ 8-50 kí tự");
+            JOptionPane.showMessageDialog(rootPane, "Mật khẩu phải 8-50 ký tự!");
         } else {
             String value = jComboBox1.getSelectedItem().toString();
             PreparedStatement ps = null;
             if ("Người mua".equals(value)) {
                 try (Connection conn = JDBCUtils.getConnection()) {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
-                    LocalDateTime now = LocalDateTime.now();  
-                    Statement stmt = conn.createStatement();
-                    String query = "insert ignore into buyer (username, pass, fullname, email, phone, address, submission_dated)"
-                    + " values (?, ?, ?, ?, ?, ?, ?)";
-                    ps = conn.prepareStatement(query);
+                    LocalDateTime now = LocalDateTime.now();
+                    String checkQr = "SELECT EXISTS (SELECT 1 FROM buyer WHERE username = ?) as result;";
+                    ps = conn.prepareStatement(checkQr);
                     ps.setString(1, jTextField2.getText());
-                    ps.setString(2, jTextField3.getText());
-                    ps.setString(3, jTextField1.getText());
-                    ps.setString(4, jTextField6.getText());
-                    ps.setString(5, jTextField4.getText());
-                    ps.setString(6, jTextField5.getText());
-                    ps.setString(7, dtf.format(now));
-
-                    int rowAffected = ps.executeUpdate();
-                    System.out.println(String.format("Row affected %d", rowAffected));
+                    ResultSet rs = ps.executeQuery();
+                    while(rs.next()) {
+                        if(!rs.getBoolean("result")) {
+                            String query = "insert ignore into buyer (username, pass, fullname, email, phone, address, submission_dated)"
+                            + " values (?, ?, ?, ?, ?, ?, ?)";
+                            ps = conn.prepareStatement(query);
+                            ps.setString(1, jTextField2.getText());
+                            ps.setString(2, jTextField3.getText());
+                            ps.setString(3, jTextField1.getText());
+                            ps.setString(4, jTextField6.getText());
+                            ps.setString(5, jTextField4.getText());
+                            ps.setString(6, jTextField5.getText());
+                            ps.setString(7, dtf.format(now));
+                            ps.executeUpdate();
+                            success = true;
+                        } else {
+                            JOptionPane.showMessageDialog(rootPane, "Tài khoản đã tồn tại!");
+                        }
+                    }
+                    
+                    
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } 
@@ -250,29 +262,45 @@ public class Signup extends javax.swing.JFrame {
                     DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");  
                     LocalDateTime now = LocalDateTime.now();  
 
-                    Statement stmt = conn.createStatement();
-                    String query = " insert into manager (username, pass, fullname, email, phone, address, submission_date)"
-                    + " values (?, ?, ?, ?, ?, ?, ?)";
-                    ps = conn.prepareStatement(query);
+                    String checkQr = "SELECT EXISTS (SELECT 1 FROM manager WHERE username = ?) as result;";
+                    ps = conn.prepareStatement(checkQr);
                     ps.setString(1, jTextField2.getText());
-                    ps.setString(2, jTextField3.getText());
-                    ps.setString(3, jTextField1.getText());
-                    ps.setString(4, jTextField6.getText());
-                    ps.setString(5, jTextField4.getText());
-                    ps.setString(6, jTextField5.getText());
-                    ps.setString(7, dtf.format(now));
+                    ResultSet rs = ps.executeQuery();
+                    while(rs.next()) {
+                        if(!rs.getBoolean("result")) {
 
-                    int rowAffected = ps.executeUpdate();
-                    System.out.println(String.format("Row affected %d", rowAffected));
+                            String query = " insert into manager (username, pass, fullname, email, phone, address, submission_date)"
+                            + " values (?, ?, ?, ?, ?, ?, ?)";
+                            ps = conn.prepareStatement(query);
+                            ps.setString(1, jTextField2.getText());
+                            ps.setString(2, jTextField3.getText());
+                            ps.setString(3, jTextField1.getText());
+                            ps.setString(4, jTextField6.getText());
+                            ps.setString(5, jTextField4.getText());
+                            ps.setString(6, jTextField5.getText());
+                            ps.setString(7, dtf.format(now));
+                            ps.executeUpdate();
+
+                            success = true;
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(rootPane, "Tài khoản đã tồn tại!");
+
+                        }
+                   
+                    }
+                    
+                    
+//                    JOptionPane.showMessageDialog(rootPane, "Đăng ký thành công");
+                    
                 } catch (SQLException ex) {
                     ex.printStackTrace();
                 } 
             }
-            
-            NotiSuccSignup notification = new NotiSuccSignup();
-            notification.setVisible(true);
-            setVisible(false); 
-            dispose(); 
+            if(success) {
+                JOptionPane.showMessageDialog(rootPane, "Đăng ký thành công");
+                dispose();
+            }
         }
         
     }                                        

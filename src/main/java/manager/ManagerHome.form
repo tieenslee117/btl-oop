@@ -56,6 +56,9 @@
           <Font name="Segoe UI" size="18" style="1"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jTabbedPane1MouseClicked"/>
+      </Events>
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JTabbedPaneSupportLayout"/>
       <SubComponents>
@@ -100,12 +103,12 @@
                       <Font name="Segoe UI" size="14" style="0"/>
                     </Property>
                     <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                      <Table columnCount="7" rowCount="4">
+                      <Table columnCount="7" rowCount="0">
                         <Column editable="false" title="T&#xea;n" type="java.lang.String"/>
+                        <Column editable="false" title="Mi&#xea;u t&#x1ea3;" type="java.lang.String"/>
                         <Column editable="false" title="&#x110;&#x1a1;n gi&#xe1;" type="java.lang.String"/>
                         <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng" type="java.lang.String"/>
                         <Column editable="false" title="S&#x1ed1; l&#x1b0;&#x1ee3;ng &#x111;&#xe3; b&#xe1;n" type="java.lang.String"/>
-                        <Column editable="false" title="Lo&#x1ea1;i h&#xe0;ng" type="java.lang.String"/>
                         <Column editable="false" title="Ng&#x1b0;&#x1edd;i b&#xe1;n" type="java.lang.String"/>
                         <Column editable="false" title="Ng&#xe0;y b&#xe1;n" type="java.lang.String"/>
                       </Table>
@@ -398,9 +401,9 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="69" max="-2" attributes="0"/>
-                          <Component id="loaiMhLb" min="-2" pref="122" max="-2" attributes="0"/>
+                          <Component id="mieuTaLb" min="-2" pref="122" max="-2" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="loaiMhTf" min="-2" pref="167" max="-2" attributes="0"/>
+                          <Component id="mieuTa" min="-2" pref="167" max="-2" attributes="0"/>
                           <EmptySpace pref="58" max="32767" attributes="0"/>
                       </Group>
                   </Group>
@@ -410,8 +413,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="loaiMhLb" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
-                              <Component id="loaiMhTf" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="mieuTaLb" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
+                              <Component id="mieuTa" alignment="0" min="-2" pref="40" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace pref="19" max="32767" attributes="0"/>
                       </Group>
@@ -419,17 +422,17 @@
                 </DimensionLayout>
               </Layout>
               <SubComponents>
-                <Component class="javax.swing.JLabel" name="loaiMhLb">
+                <Component class="javax.swing.JLabel" name="mieuTaLb">
                   <Properties>
                     <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                       <Font name="Segoe UI" size="18" style="1"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Lo&#x1ea1;i "/>
+                    <Property name="text" type="java.lang.String" value="Mi&#xea;u t&#x1ea3;"/>
                   </Properties>
                 </Component>
-                <Component class="javax.swing.JTextField" name="loaiMhTf">
+                <Component class="javax.swing.JTextField" name="mieuTa">
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="loaiMhTfActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="mieuTaActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>
